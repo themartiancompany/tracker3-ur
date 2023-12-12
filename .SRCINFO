@@ -1,0 +1,39 @@
+pkgbase = tracker3
+	pkgdesc = SQLite-based RDF triplestore database with SPARQL interface
+	pkgver = 3.6.0
+	pkgrel = 2
+	url = https://tracker.gnome.org/
+	arch = x86_64
+	license = GPL
+	makedepends = asciidoc
+	makedepends = bash-completion
+	makedepends = dbus
+	makedepends = gi-docgen
+	makedepends = git
+	makedepends = gobject-introspection
+	makedepends = libsoup
+	makedepends = meson
+	makedepends = python-dbus
+	makedepends = python-gobject
+	makedepends = python-tappy
+	makedepends = systemd
+	makedepends = vala
+	depends = glib2
+	depends = icu
+	depends = json-glib
+	depends = libsoup3
+	depends = libstemmer
+	depends = libxml2
+	depends = sqlite
+	source = git+https://gitlab.gnome.org/GNOME/tracker.git#commit=624ef729966f2d9cf748321bd7bac822489fa8ed
+	source = git+https://gitlab.gnome.org/GNOME/gvdb.git
+	b2sums = SKIP
+	b2sums = SKIP
+
+pkgname = tracker3
+	optdepends = libsoup: Alternative remoting backend
+	provides = libtracker-sparql-3.0.so
+
+pkgname = tracker3-docs
+	pkgdesc = SQLite-based RDF triplestore database with SPARQL interface (documentation)
+	depends = 
