@@ -1,7 +1,7 @@
 pkgbase = tracker3
 	pkgdesc = SQLite-based RDF triplestore database with SPARQL interface
-	pkgver = 3.6.0
-	pkgrel = 3
+	pkgver = 3.7alpha
+	pkgrel = 1
 	url = https://tracker.gnome.org/
 	arch = x86_64
 	license = LGPL-2.1-or-later
@@ -25,7 +25,7 @@ pkgbase = tracker3
 	depends = libstemmer
 	depends = libxml2
 	depends = sqlite
-	source = git+https://gitlab.gnome.org/GNOME/tracker.git#commit=624ef729966f2d9cf748321bd7bac822489fa8ed
+	source = git+https://gitlab.gnome.org/GNOME/tracker.git#commit=b310f3a9cbcb8c76ca08b3269cbe439485391e9e
 	source = git+https://gitlab.gnome.org/GNOME/gvdb.git
 	b2sums = SKIP
 	b2sums = SKIP
