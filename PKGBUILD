@@ -51,9 +51,9 @@ makedepends=(
   gobject-introspection
   libsoup
   meson
-  python-dbus
-  python-gobject
-  python-tappy
+  "${_py}-dbus"
+  "${_py}-gobject"
+  "${_py}-tappy"
   systemd
   vala
 )
@@ -155,7 +155,4 @@ package_tracker3-docs() {
     "$pkgdir"
 }
 
-# vim:set sw=2 sts=-1 et:
-#!/usr/bin/env bash
-#
 # vim:set sw=2 sts=-1 et:
