@@ -7,9 +7,13 @@
 # Contributor: Pellegrino Prevete (tallero) <pellegrinoprevete@gmail.com>
 # Contributor: Truocolo <truocolo@aol.com>
 
+_systemd="true"
 _py="python"
 _docs=false
+_checks=false
 _pkg="tracker"
+_proj="gnome"
+_ns="GNOME"
 pkgbase="${_pkg}3"
 pkgname=(
   "${pkgbase}"
@@ -21,7 +25,7 @@ pkgname=(
 pkgver=3.7alpha
 pkgrel=1
 pkgdesc="SQLite-based RDF triplestore database with SPARQL interface"
-url="https://${_pkg}.gnome.org/"
+url="https://${_pkg}.${_proj}.org/"
 arch=(
   x86_64
   arm
@@ -54,17 +58,26 @@ makedepends=(
   "${_py}-dbus"
   "${_py}-gobject"
   "${_py}-tappy"
-  systemd
   vala
 )
-[[ "${_docs}" == true ]] & \
+[[ "${_systemd}" == true ]] && \
+  makedepends+=(
+    systemd
+  )
+
+[[ "${_docs}" == true ]] && \
   makedepends+=(
     gi-docgen
   )
 _commit=b310f3a9cbcb8c76ca08b3269cbe439485391e9e  # tags/3.7.alpha^0
+_http="https://gitlab.${_proj}.org"
+_local="file://${HOME}/${_pkg}"
+_local_gvdb="file://${HOME}/gvdb"
 source=(
-  "git+https://gitlab.gnome.org/GNOME/${_pkg}.git#commit=$_commit"
-  "git+https://gitlab.gnome.org/GNOME/gvdb.git"
+  # "git+${_http}/${_ns}/${_pkg}.git#commit=$_commit"
+  "git+${_local}#commit=$_commit"
+  "gvdb.git::git+${_local_gvdb}"
+  # "git+${_http}/${_ns}/gvdb.git"
 )
 b2sums=(
   'SKIP'
@@ -83,8 +96,24 @@ pkgver() {
 }
 
 prepare() {
+  local \
+    _gcc14_test_start=() \
+    _gcc14_test_end=()
+  _gcc14_test_start=(
+    "Get an appropriate 4-digit"
+    "year modifier for strftime"
+  )
+  _gcc14_test_end=(
+    "Check for libtracker-data and"
+    "libtracker-fts: Unicode support"
+  )
   cd \
     "${_pkg}"
+  # Fix build on gcc<14
+  sed \
+    -i \
+    "/${_gcc14_test_start}/,/${_gcc14_test_end}/{/^#/!{/^\$/!d}}" \
+    "meson.build"
   git \
     submodule \
       init
@@ -104,6 +133,11 @@ build() {
   local meson_options=()
   meson_options=(
     -D tests_tap_protocol=true
+    -D docs="${_docs}"
+    -D tests="${_checks}"
+    -D test_utils="${_checks}"
+    -D systemd_user_services="${_systemd}"
+    --wrap-mode=forcefallback
   )
 
   arch-meson \
@@ -139,11 +173,11 @@ package_tracker3() {
     -C build \
     --destdir "$pkgdir"
   if [[ "${_docs}" == true ]]; then
-  mkdir \
-    -p \
-    docs/usr/share
-  mv \
-    {"$pkgdir",docs}"/usr/share/doc"
+    mkdir \
+      -p \
+      docs/usr/share
+    mv \
+      {"$pkgdir",docs}"/usr/share/doc"
   fi
 }
 
