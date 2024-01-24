@@ -7,7 +7,7 @@
 # Contributor: Pellegrino Prevete (tallero) <pellegrinoprevete@gmail.com>
 # Contributor: Truocolo <truocolo@aol.com>
 
-_systemd="true"
+_systemd="false"
 _py="python"
 _docs=false
 _checks=false
@@ -110,10 +110,10 @@ prepare() {
   cd \
     "${_pkg}"
   # Fix build on gcc<14
-  sed \
-    -i \
-    "/${_gcc14_test_start}/,/${_gcc14_test_end}/{/^#/!{/^\$/!d}}" \
-    "meson.build"
+  # sed \
+  #   -i \
+  #   "/${_gcc14_test_start}/,/${_gcc14_test_end}/{/^#/!{/^\$/!d}}" \
+  #   "meson.build"
   git \
     submodule \
       init
